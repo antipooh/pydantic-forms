@@ -1,19 +1,30 @@
-[tool.poetry]
+[project]
 name = "pydantic-forms"
-version = "0.1.0"
+version = "1.0.1"
 description = ""
-authors = ["Derek Fitzpatrick <dfitz.murrieta@gmail.com>"]
+authors = [{ name = "Derek Fitzpatrick", email = "dfitz.murrieta@gmail.com" }]
+requires-python = ">=3.12"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+]
+dependencies = [
+    "pydantic>=2",
+    "python-multipart>=0.0.22",
+]
 
-[tool.poetry.dependencies]
-python = "^3.10"
-pydantic = "^1.8.2"
-python-multipart = "^0.0.5"
-
-[tool.poetry.dev-dependencies]
-pytest-asyncio = "^0.16.0"
-Sphinx = "^4.3.2"
-sphinx-material = "^0.0.35"
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+    "pytest-asyncio>=0.16.0,<0.17",
+    "Sphinx>=4.3.2,<5",
+    "sphinx-material>=0.0.35,<0.0.36",
+]
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
+requires = ["uv_build>=0.9.18,<0.10.0"]
+build-backend = "uv_build"

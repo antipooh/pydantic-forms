@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
-from typing import Dict, Any, Optional
-from typing import TypeVar
+from typing import Any, Dict, Optional, TypeVar
 
 Request = TypeVar('Request')
+
 
 class BaseStrategy(ABC):
     """
@@ -61,6 +61,7 @@ class BaseStrategy(ABC):
         The modified request object
         """
         ...
+
     @abstractmethod
     async def csrf_check(self, request, csrf_form_data: Optional[str]) -> None:
         """
@@ -82,6 +83,3 @@ class BaseStrategy(ABC):
 
         """
         ...
-
-
-

@@ -1,5 +1,5 @@
 from secrets import token_urlsafe
-from typing import Optional, Any, Dict
+from typing import Any, Dict, Optional
 
 from .interfaces import BaseStrategy
 from .objects import CsrfError

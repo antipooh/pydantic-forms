@@ -1,17 +1,18 @@
 import asyncio
-from typing import Dict, Any
+from typing import Any, Dict
 
 import pytest
 from pydantic import BaseModel
 
 from pydantic_forms import DefaultStrategy
 
+
 class SampleFlatSchema(BaseModel):
     foo: int
     bar: bool
 
-class MockAsyncRequestForm:
 
+class MockAsyncRequestForm:
 
     def __init__(self, error=False):
         self.model = SampleFlatSchema(foo=1, bar=True)
@@ -32,6 +33,7 @@ class MockAsyncRequestForm:
 
 class MockPostBackRequestForm(MockAsyncRequestForm):
     model = SampleFlatSchema(foo=1, bar=True)
+
     def __init__(self, error=False):
         super(MockPostBackRequestForm, self).__init__(error)
         self.other_fields = {}
@@ -42,6 +44,7 @@ class MockPostBackRequestForm(MockAsyncRequestForm):
 @pytest.fixture
 def req():
     yield MockAsyncRequestForm()
+
 
 @pytest.fixture
 def strategy():
