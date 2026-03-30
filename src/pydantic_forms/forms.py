@@ -1,8 +1,6 @@
 from typing import Any, Dict, Generic, Optional, Type, TypeVar
 
-import pydantic
-from pydantic import BaseModel
-from pydantic.generics import GenericModel
+from pydantic import BaseModel, ValidationError
 
 from pydantic_forms.interfaces import BaseStrategy
 from pydantic_forms.objects import FormField
@@ -12,7 +10,7 @@ from .services import format_validation_error_schemas, get_field_errors, make_fo
 T = TypeVar('T')
 
 
-class PydanticForm(GenericModel, Generic[T]):
+class PydanticForm(BaseModel, Generic[T]):
     """
     .. note::
         You will not manually construct this class, but instead use one of two classmethods for instantiation.
@@ -154,13 +152,12 @@ class PydanticForm(GenericModel, Generic[T]):
         data = await strategy.get_request_data(request)
         csrf_key = strategy.csrf_key
         csrf_form_data = data.get(csrf_key)
-        values, field_set, exc = pydantic.validate_model(schema, data)
-        errors = []
         model = None
-        if exc:
+        errors = []
+        try:
+            model = schema.model_validate(data)
+        except ValidationError as exc:
             errors = format_validation_error_schemas(exc)
-        else:
-            model = schema(**data)
         await strategy.csrf_check(request, csrf_form_data)
         field_errors = get_field_errors(errors)
         form_fields = make_form_fields(model, schema, field_errors, data)

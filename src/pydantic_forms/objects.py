@@ -1,6 +1,6 @@
 from typing import Any, Optional, Sequence
 
-from pydantic import BaseModel
+from pydantic import ConfigDict, BaseModel
 
 
 class FormField(BaseModel):
@@ -26,9 +26,7 @@ class FormField(BaseModel):
     name: str
     error: str = ''
     value: Optional[Any] = None
-
-    class Config:
-        frozen = True
+    model_config = ConfigDict(frozen=True)
 
 
 class ValidationErrorSchema(BaseModel):

@@ -40,7 +40,8 @@ def test_get_field_errors():
         errors = ve.errors()
         errors = [ValidationErrorSchema(**e) for e in errors]
         field_errors = get_field_errors(errors)
-        assert field_errors == {'bar': 'value could not be parsed to a boolean', 'foo': 'value is not a valid integer'}
+        assert field_errors == {'bar': 'Input should be a valid boolean, unable to interpret input',
+                                'foo': 'Input should be a valid integer, unable to parse string as an integer'}
 
 
 def test_make_form_fields_invalid():
@@ -54,8 +55,10 @@ def test_make_form_fields_invalid():
         field_errors = get_field_errors(errors)
         form_fields = make_form_fields(model, schema, field_errors, data)
         assert form_fields == {
-            'bar': FormField(error='value could not be parsed to a boolean', value='bar', name='bar'),
-            'foo': FormField(error='value is not a valid integer', value='foo', name='foo')}
+            'bar': FormField(error='Input should be a valid boolean, unable to interpret input',
+                             value='bar', name='bar'),
+            'foo': FormField(error='Input should be a valid integer, unable to parse string as an integer',
+                             value='foo', name='foo')}
 
 
 def test_make_form_fields_valid(schema):
