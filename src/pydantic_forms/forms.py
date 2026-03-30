@@ -1,5 +1,4 @@
-from typing import Dict, Optional, Type, Any
-from typing import Generic, TypeVar
+from typing import Any, Dict, Generic, Optional, Type, TypeVar
 
 import pydantic
 from pydantic import BaseModel
@@ -8,7 +7,7 @@ from pydantic.generics import GenericModel
 from pydantic_forms.interfaces import BaseStrategy
 from pydantic_forms.objects import FormField
 from pydantic_forms.strategies import DefaultStrategy
-from .services import make_form_fields, format_validation_error_schemas, get_field_errors
+from .services import format_validation_error_schemas, get_field_errors, make_form_fields
 
 T = TypeVar('T')
 
@@ -47,7 +46,8 @@ class PydanticForm(GenericModel, Generic[T]):
     model: Optional[T]
 
     @classmethod
-    async def create(cls, request: Any, schema: Type[BaseModel], strategy: BaseStrategy = DefaultStrategy()) -> 'PydanticForm':
+    async def create(cls, request: Any, schema: Type[BaseModel],
+                     strategy: BaseStrategy = DefaultStrategy()) -> 'PydanticForm':
         """
         Creates the PydanticForm object from a typical request object. This method is generally called on a `GET` method
         for a particular endpoint.
@@ -93,7 +93,8 @@ class PydanticForm(GenericModel, Generic[T]):
         return cls[schema](csrf=csrf, fields=form_fields, model=None)
 
     @classmethod
-    async def validate_request(cls, request: Any, schema: Type[BaseModel], strategy: BaseStrategy = DefaultStrategy()) -> 'PydanticForm':
+    async def validate_request(cls, request: Any, schema: Type[BaseModel],
+                               strategy: BaseStrategy = DefaultStrategy()) -> 'PydanticForm':
         """
         Creates the PydanticForm object from a typical request object. This method is generally called on a `POST` method
         for a particular endpoint where it will then retrieve the form data.

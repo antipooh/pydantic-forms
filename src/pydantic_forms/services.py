@@ -1,12 +1,13 @@
-from typing import List, Dict, Any, Optional, Type
+from typing import Any, Dict, List, Optional, Type
 
 from pydantic import BaseModel, ValidationError
 
-from .objects import ValidationErrorSchema, FormField
+from .objects import FormField, ValidationErrorSchema
 
 
 def get_fields(schema: Type[BaseModel]) -> List[str]:
     return list(schema.__fields__.keys())
+
 
 def format_validation_error_schemas(exception: ValidationError) -> List[ValidationErrorSchema]:
     container = []
@@ -18,10 +19,13 @@ def format_validation_error_schemas(exception: ValidationError) -> List[Validati
         ))
     return container
 
+
 def get_field_errors(errors: List[ValidationErrorSchema]) -> Dict[str, str]:
     return {loc: e.msg for e in errors for loc in e.loc}
 
-def make_form_fields(model: Optional[BaseModel], schema: Type[BaseModel], errors: Dict[str, str], data: Optional[Dict[str, Any]] = None) -> Dict[str, FormField]:
+
+def make_form_fields(model: Optional[BaseModel], schema: Type[BaseModel], errors: Dict[str, str],
+                     data: Optional[Dict[str, Any]] = None) -> Dict[str, FormField]:
     """
 
     Returns
