@@ -614,7 +614,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "pydantic", specifier = ">=2" },
-    { name = "python-multipart", specifier = ">0.0.6" },
+    { name = "python-multipart", specifier = ">=0.0.22" },
 ]
 
 [package.metadata.requires-dev]

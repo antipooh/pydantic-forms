@@ -13,7 +13,7 @@ def format_validation_error_schemas(exception: ValidationError) -> List[Validati
     container = []
     for e in exception.errors():
         container.append(ValidationErrorSchema(
-            loc=e['loc'],
+            loc=[str(x) for x in e['loc']],
             msg=e['msg'],
             type=e['type']
         ))
@@ -36,7 +36,7 @@ def make_form_fields(model: Optional[BaseModel], schema: Type[BaseModel], errors
     container = {}
 
     for field_name in fields:
-        value_container = model.dict() if model is not None else data or {}
+        value_container = model.model_dump() if model is not None else data or {}
         value = value_container.get(field_name, '')
         o = FormField(
             name=field_name,

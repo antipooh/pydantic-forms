@@ -3,7 +3,7 @@ name = "pydantic-forms"
 version = "1.0.1"
 description = ""
 authors = [{ name = "Derek Fitzpatrick", email = "dfitz.murrieta@gmail.com" }]
-requires-python = ">=3.10,<4"
+requires-python = ">=3.12"
 classifiers = [
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
@@ -14,7 +14,7 @@ classifiers = [
 ]
 dependencies = [
     "pydantic>=2",
-    "python-multipart>0.0.6",
+    "python-multipart>=0.0.22",
 ]
 
 [dependency-groups]
