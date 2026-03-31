@@ -48,6 +48,7 @@ class PydanticForm(BaseModel, Generic[T]):
 
     @classmethod
     async def create(cls, request: Any, schema: Type[BaseModel],
+                     initial_data: Optional[BaseModel] = None,
                      strategy: BaseStrategy = DefaultStrategy()) -> Self:
         """
         Creates the PydanticForm object from a typical request object. This method is generally called on a `GET` method
@@ -78,6 +79,8 @@ class PydanticForm(BaseModel, Generic[T]):
             The class on which will act as the storage point for form data. This means that Pydantic models are flat
             with no nested models. All the magic of a normal BaseModel will work towards server-side validation such as
             validators.
+        initial_data:
+            Instance of schema class with initial data for form
         strategy:
             An instance that is inherited from BaseStrategy that is used to interpret the request object, insert csrf tokens
             into the session, and to parse validation errors that are returned from pydantic.
@@ -88,7 +91,7 @@ class PydanticForm(BaseModel, Generic[T]):
         -------
         :class:`PydanticForm <PydanticForm>`
         """
-        form_fields = make_form_fields(None, schema, {})
+        form_fields = make_form_fields(initial_data, schema, {})
         csrf = await strategy.make_csrf()
         await strategy.attach_csrf(request, csrf)
         return cls(csrf=csrf, fields=form_fields, model=None)

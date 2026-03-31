@@ -84,3 +84,12 @@ async def test_form_show_not_validated_when_creating():
     request = MockAsyncRequestForm()
     form = await PydanticForm.create(request, SampleFlatSchema)
     assert form.validated is False
+
+
+@pytest.mark.asyncio
+async def test_form_set_initial_values():
+    request = MockAsyncRequestForm()
+    initial_data = SampleFlatSchema(foo=42, bar=True)
+    form = await PydanticForm.create(request, SampleFlatSchema, initial_data)
+    assert form.fields['foo'].value == 42
+    assert form.fields['bar'].value is True
